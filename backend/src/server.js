@@ -1,5 +1,5 @@
 import App from './app';
 
-const PORT = 3332;
+const PORT = 3333;
 
 App.listen(PORT);
