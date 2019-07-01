@@ -10,17 +10,19 @@ class User extends Model {
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
       },
-      {
-        sequelize,
-      }
+      { sequelize }
     );
 
     this.addHook('beforeSave', async user => {
       if (user.password)
         user.password_hash = await bcrypt.hash(user.password, 8);
-
-      return this;
     });
+
+    return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
 
   checkPassword(password) {
