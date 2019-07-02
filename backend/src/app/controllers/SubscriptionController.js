@@ -4,6 +4,10 @@ import { isBefore } from 'date-fns';
 
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
+import User from '../models/User';
+
+import SubscriptionMail from '../jobs/SubscriptionMail';
+import Queue from '../../lib/Queue';
 
 class SubscriptionController {
   async index(req, res) {
@@ -35,7 +39,14 @@ class SubscriptionController {
     if (!(await schema.isValid(req.params)))
       return res.status(400).json({ error: 'Validadion fails' });
 
-    const meetup = await Meetup.findByPk(req.params.meetupId);
+    const meetup = await Meetup.findByPk(req.params.meetupId, {
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     if (!meetup) return res.status(400).json({ error: 'Meetup not found' });
 
@@ -89,6 +100,11 @@ class SubscriptionController {
       user_id: req.userId,
       meetup_id: meetup.id,
     });
+
+    /**
+     * Send email
+     */
+    await Queue.add(SubscriptionMail.key, { meetup });
 
     return res.json(subscription);
   }
