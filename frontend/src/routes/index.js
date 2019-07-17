@@ -17,6 +17,7 @@ export default () => (
     <Route path="/dashboard" component={Dashboard} isPrivete />
     <Route path="/details" component={Details} isPrivete />
     <Route path="/profile" component={Profile} isPrivete />
+
     <Route path="/" component={() => <h1>404 - Page not found</h1>} />
   </Switch>
 );
