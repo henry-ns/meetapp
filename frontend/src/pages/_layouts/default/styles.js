@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
+import { primaryDarkColor, primaryLightColor } from '~/styles/colors';
+
 export const Wrapper = styled.div`
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
-  background: #555;
+
+  background: linear-gradient(0deg, ${primaryLightColor}, ${primaryDarkColor});
 `;
