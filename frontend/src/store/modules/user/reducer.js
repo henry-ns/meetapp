@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   profile: null,
   loading: false,
 };
+
 export default function user(state = INITIAL_STATE, action) {
   return provide(state, draft => {
     switch (action.type) {

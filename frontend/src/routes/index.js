@@ -15,8 +15,11 @@ export default () => (
     <Route path="/register" component={SignUp} />
 
     <Route path="/dashboard" component={Dashboard} isPrivete />
-    <Route path="/details" component={Details} isPrivete />
+    <Route path="/details/:id" component={Details} isPrivete />
     <Route path="/profile" component={Profile} isPrivete />
+
+    <Route path="/meetup/new" component={Profile} isPrivete />
+    <Route path="/meetup/:id/edit" component={Profile} isPrivete />
 
     <Route path="/" component={() => <h1>404 - Page not found</h1>} />
   </Switch>
