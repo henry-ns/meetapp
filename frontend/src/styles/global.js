@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 import { primaryTextColor } from './colors';
 
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
@@ -23,7 +24,7 @@ export default createGlobalStyle`
     height: 100%;
   }
 
-  body, input, button {
+  body, input, textarea, button {
     font: 14px Roboto, sans-serif;
   }
 
@@ -44,11 +45,17 @@ export default createGlobalStyle`
 
     color: ${primaryTextColor};
     font-weight: bold;
+    font-size: 1.14em;
   }
 
-  input, button {
+  input, button, textarea {
     border: 0;
     border-radius: 4px;
     height: 42px;
+  }
+
+  .react-datepicker__input-container {
+    display: block !important;
+    width: 100%;
   }
 `;

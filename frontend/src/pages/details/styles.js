@@ -48,6 +48,7 @@ export const Container = styled.article`
     width: 100%;
     max-width: 940px;
     height: auto;
+    border-radius: 4px;
   }
 
   p {

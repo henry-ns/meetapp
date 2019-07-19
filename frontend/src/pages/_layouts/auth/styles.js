@@ -16,8 +16,14 @@ export const Wrapper = styled.div`
 `;
 
 export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
   max-width: 315px;
+  min-height: 100vh;
   text-align: center;
 
   img {
