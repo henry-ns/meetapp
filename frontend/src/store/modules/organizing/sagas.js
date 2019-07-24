@@ -51,7 +51,7 @@ export function* updateMeetup({ payload }) {
 
     history.push('/dashboard');
   } catch (err) {
-    toast.error('Erro ao atualizar, verifique seus dados!',, 2500);
+    toast.error('Erro ao atualizar, verifique seus dados!', 2500);
   }
 }
 
