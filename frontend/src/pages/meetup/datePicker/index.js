@@ -20,14 +20,18 @@ export default function DatePicker({ name }) {
         pickerRef.clear();
       },
     });
-  }, [fieldName, registerField, ref]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ref.current, fieldName]);
+
+  function handleChange(date) {
+    setSelected(date);
+  }
 
   return (
     <>
       <Picker
-        name={fieldName}
         selected={selected}
-        onChange={date => setSelected(date)}
+        onChange={handleChange}
         ref={ref}
         timeIntervals={60}
         showTimeSelect

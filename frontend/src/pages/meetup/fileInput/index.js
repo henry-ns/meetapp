@@ -7,13 +7,11 @@ import background from '~/assets/background-image.png';
 import { Container } from './styles';
 
 export default function FileInput() {
-  const { defaultValue, registerField } = useField('file');
+  const { defaultValue, registerField } = useField('File');
 
-  const [file, setFile] = useState(defaultValue ? defaultValue.id : 11);
+  const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(
-    defaultValue
-      ? defaultValue.url
-      : 'http://localhost:3333/files/4eee69154c7ac5350e7c777c31ade99b.jpg'
+    defaultValue ? defaultValue.url : background
   );
 
   const ref = useRef();
@@ -43,7 +41,7 @@ export default function FileInput() {
   return (
     <Container>
       <label htmlFor="file">
-        <img src={preview || background} alt="" />
+        <img src={preview} alt="" />
 
         <input
           type="file"

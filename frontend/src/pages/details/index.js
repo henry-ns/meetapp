@@ -1,15 +1,18 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import history from '~/services/history';
+import { cancelMeetupRequest } from '~/store/modules/organizing/actions';
 
 import { Container, Button } from './styles';
 
 export default function Details({ match }) {
+  const dispatch = useDispatch();
+
   const meetup = useSelector(
     state =>
       state.organizing.meetups.filter(m => m.id === Number(match.params.id))[0]
@@ -23,6 +26,10 @@ export default function Details({ match }) {
       }),
     [meetup]
   );
+
+  function handleCancel() {
+    dispatch(cancelMeetupRequest(meetup.id));
+  }
 
   return (
     <Container>
@@ -38,7 +45,7 @@ export default function Details({ match }) {
               >
                 Editar
               </Button>
-              <Button>Cancelar</Button>
+              <Button onClick={handleCancel}>Cancelar</Button>
             </div>
           </header>
 
@@ -65,7 +72,7 @@ export default function Details({ match }) {
 Details.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };

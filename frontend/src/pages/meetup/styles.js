@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Form, Input as In } from '@rocketseat/unform';
+import { darken } from 'polished';
 import { secondaryButton, primaryTextColor } from '~/styles/colors';
 
 export const Container = styled(Form)`
@@ -15,6 +16,15 @@ export const Container = styled(Form)`
     background: ${secondaryButton};
     margin-left: auto;
     margin-top: 15px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: ${darken(0.05, secondaryButton)};
+    }
+
+    &:active {
+      background: ${darken(0.1, secondaryButton)};
+    }
   }
 
   > span {

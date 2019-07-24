@@ -17,7 +17,7 @@ export default function meetup(state = INITIAL_STATE, action) {
         draft.loading = false;
         break;
       }
-      case '@organizing/GET_MEETUPS_FAILURE': {
+      case '@organizing/FAILURE': {
         draft.loading = false;
         break;
       }
