@@ -40,7 +40,11 @@ export default function Meetup({ match }) {
   });
 
   function handleSubmit(data) {
-    dispatch(meetup.id ? updateMeetupRequest(data) : createMeetupRequest(data));
+    dispatch(
+      meetup.id
+        ? updateMeetupRequest({ data, id: meetup.id })
+        : createMeetupRequest(data)
+    );
   }
 
   return (
@@ -54,7 +58,7 @@ export default function Meetup({ match }) {
 
       <Input name="location" placeholder="Localização" />
 
-      <button type="submit">Salvar meetup</button>
+      <button type="submit">Salvar</button>
     </Container>
   );
 }

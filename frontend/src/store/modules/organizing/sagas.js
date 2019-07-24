@@ -12,7 +12,7 @@ export function* getMeetups() {
 
     yield put(getMeetupsSuccess(res.data));
   } catch (erro) {
-    toast.erro('Falha ao carregar os seus meetups');
+    toast.erro('Falha ao carregar os seus meetups', 2500);
     yield put(failure());
   }
 }
@@ -22,10 +22,10 @@ export function* cancelMeetup({ payload }) {
     console.tron.log(payload.id);
     yield call(api.delete, `meetups/${payload.id}`);
 
-    toast.success('meetup cancelado com sucesso!');
+    toast.success('meetup cancelado com sucesso!', 2500);
     history.push('/dashboard');
   } catch (erro) {
-    toast.erro('Falha ao cancelar seu meetup');
+    toast.erro('Falha ao cancelar seu meetup', 2500);
     yield put(failure());
   }
 }
@@ -34,25 +34,24 @@ export function* createMeetup({ payload }) {
   try {
     const res = yield call(api.post, 'meetups', payload);
 
-    toast.success('Seu meetup foi criado com sucesso!');
+    toast.success('Seu meetup foi criado com sucesso!', 2500);
     yield put(createMeetupSuccess(res.data));
 
     history.push('/dashboard');
   } catch (err) {
-    toast.error('Erro ao criar, verifique seus dados!');
+    toast.error('Erro ao criar, verifique seus dados!', 2500);
   }
 }
 
 export function* updateMeetup({ payload }) {
   try {
-    const res = yield call(api.post, 'meetups', payload);
+    yield call(api.put, `meetups/${payload.id}`, payload.data);
 
-    toast.success('Seu meetup foi atualizado com sucesso!');
-    yield put(createMeetupSuccess(res.data));
+    toast.success('Seu meetup foi atualizado com sucesso!', 2500);
 
     history.push('/dashboard');
   } catch (err) {
-    toast.error('Erro ao atualizar, verifique seus dados!');
+    toast.error('Erro ao atualizar, verifique seus dados!',, 2500);
   }
 }
 
