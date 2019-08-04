@@ -1,11 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { StatusBar } from 'react-native';
+
+import './config/ReactotronConfig';
+
+import Routes from './routes';
+import { primaryDarkColor } from '~/styles/colors';
 
 const App = () => {
   return (
-    <View>
-      <Text>Hello Meetapp</Text>
-    </View>
+    <>
+      <StatusBar barStyle="light-content" backgroundColor={primaryDarkColor} />
+      <Routes />
+    </>
   );
 };
 
