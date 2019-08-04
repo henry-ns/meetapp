@@ -1,6 +1,10 @@
 import { Router } from 'express';
+import Brute from 'express-brute';
+import BruteRedis from 'express-brute-redis';
+
 import multer from 'multer';
 import multerConfig from './config/multer';
+import redisConfig from './config/redis';
 
 import UserController from './app/controllers/UserController';
 import MeetupController from './app/controllers/MeetupController';
@@ -22,9 +26,18 @@ import authMiddware from './app/middwares/auth';
 const routes = new Router();
 const upload = multer(multerConfig);
 
+const bruteStore = new BruteRedis(redisConfig);
+const bruteForce = new Brute(bruteStore);
+
 routes.get('/', (_, res) => res.send('Welcome to MeetApp'));
 
-routes.post('/session', validateSessionStore, SessionController.store);
+routes.post(
+  '/session',
+  bruteForce.prevent,
+  validateSessionStore,
+  SessionController.store
+);
+
 routes.post('/users', validateUserStore, UserController.store);
 
 routes.use(authMiddware);
