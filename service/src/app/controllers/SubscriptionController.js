@@ -1,5 +1,4 @@
 import { Op } from 'sequelize';
-import * as Yup from 'yup';
 import { isBefore } from 'date-fns';
 
 import Subscription from '../models/Subscription';
@@ -29,16 +28,6 @@ class SubscriptionController {
   }
 
   async store(req, res) {
-    /**
-     * Checking data
-     */
-    const schema = Yup.object().shape({
-      meetupId: Yup.number().required(),
-    });
-
-    if (!(await schema.isValid(req.params)))
-      return res.status(400).json({ error: 'Validadion fails' });
-
     const meetup = await Meetup.findByPk(req.params.meetupId, {
       include: [
         {

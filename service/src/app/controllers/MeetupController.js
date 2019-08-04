@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { isBefore, parseISO, startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 
@@ -32,20 +31,6 @@ class MeetupController {
   }
 
   async store(req, res) {
-    /**
-     * Checking data
-     */
-    const schema = Yup.object().shape({
-      title: Yup.string().required(),
-      file_id: Yup.number().required(),
-      description: Yup.string().required(),
-      location: Yup.string().required(),
-      date: Yup.date().required(),
-    });
-
-    if (!(await schema.isValid(req.body)))
-      return res.status(400).json({ error: 'Validadion fails' });
-
     if (isBefore(parseISO(req.body.date), new Date()))
       return res.status(400).json({ error: 'Invalid Date' });
 
@@ -61,20 +46,6 @@ class MeetupController {
   }
 
   async update(req, res) {
-    /**
-     * Checking data
-     */
-    const schema = Yup.object().shape({
-      title: Yup.string(),
-      file_id: Yup.number(),
-      description: Yup.string(),
-      location: Yup.string(),
-      date: Yup.date(),
-    });
-
-    if (!(await schema.isValid(req.body)))
-      return res.status(400).json({ error: 'Validadion fails' });
-
     if (isBefore(parseISO(req.body.date), new Date()))
       return res.status(400).json({ error: 'Invalid Date' });
 

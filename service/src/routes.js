@@ -9,6 +9,14 @@ import SessionController from './app/controllers/SessionController';
 import SubscriptionController from './app/controllers/SubscriptionController';
 import FileController from './app/controllers/FileController';
 
+import {
+  validateMeetupStore,
+  validateMeetupUpdate,
+} from './app/validators/Meetup';
+import { validateSessionStore } from './app/validators/Session';
+import { validateSubscriptionStore } from './app/validators/Subscription';
+import { validateUserStore, validateUserUpdate } from './app/validators/User';
+
 import authMiddware from './app/middwares/auth';
 
 const routes = new Router();
@@ -16,27 +24,31 @@ const upload = multer(multerConfig);
 
 routes.get('/', (_, res) => res.send('Welcome to MeetApp'));
 
-routes.post('/session', SessionController.store);
-routes.post('/users', UserController.store);
+routes.post('/session', validateSessionStore, SessionController.store);
+routes.post('/users', validateUserStore, UserController.store);
 
 routes.use(authMiddware);
+
+routes.put('/users', validateUserUpdate, UserController.update);
+routes.post('/files', upload.single('file'), FileController.store);
 
 routes
   .route('/meetups')
   .get(MeetupController.index)
-  .post(MeetupController.store);
+  .post(validateMeetupStore, MeetupController.store);
 
 routes
   .route('/meetups/:id')
-  .put(MeetupController.update)
+  .put(validateMeetupUpdate, MeetupController.update)
   .delete(MeetupController.delete);
 
 routes.get('/organizing', OrganizingController.index);
 routes.get('/subscriptions', SubscriptionController.index);
 
-routes.post('/meetups/:meetupId/subscriptions', SubscriptionController.store);
-
-routes.put('/users', UserController.update);
-routes.post('/files', upload.single('file'), FileController.store);
+routes.post(
+  '/meetups/:meetupId/subscriptions',
+  validateSubscriptionStore,
+  SubscriptionController.store
+);
 
 export default routes;
