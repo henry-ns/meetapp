@@ -6,6 +6,8 @@ export const primaryLightColor = '#402845';
 
 export const primaryDarkColor = '#22202C';
 
+export const tabBarColor = '#2B1A2F';
+
 export const secondaryColor = '#000';
 
 export const primaryTextColor = '#fff';
