@@ -8,13 +8,15 @@ export const primaryDarkColor = '#22202C';
 
 export const tabBarColor = '#2B1A2F';
 
-export const secondaryColor = '#000';
+export const statusBarColor = '#000000';
 
-export const primaryTextColor = '#fff';
+export const secondaryColor = '#333333';
+
+export const primaryTextColor = '#ffffff';
 
 export const placeholderTextColor = 'rgba(255, 255, 255, 0.5)';
 
-export const secondaryTextColor = '#999';
+export const secondaryTextColor = '#999999';
 
 export const primaryButton = '#4DBAF9';
 
