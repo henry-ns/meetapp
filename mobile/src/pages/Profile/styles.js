@@ -16,9 +16,9 @@ export const Container = styled.SafeAreaView`
 
 export const Divider = styled.View`
   height: 1px;
-  margin: 20px 0 30px;
   opacity: 0.4;
   background: ${placeholderTextColor};
+  margin: ${({ marginStyle }) => marginStyle || '20px 0 30px'};
 `;
 
 export const Form = styled.ScrollView.attrs({
@@ -37,7 +37,6 @@ export const SubmitButton = styled(Button)`
 `;
 
 export const LogoutButton = styled(Button)`
-  margin-top: 15px;
   height: 42px;
   background: ${secondaryButton};
 `;

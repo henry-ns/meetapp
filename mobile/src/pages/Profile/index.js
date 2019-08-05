@@ -121,6 +121,8 @@ export default function Profile() {
             Salvar perfil
           </SubmitButton>
 
+          <Divider marginStyle="20px 0" />
+
           <LogoutButton onPress={handleLogout}>Sair do Meetapp</LogoutButton>
         </Form>
       </Container>
