@@ -17,7 +17,6 @@ export function* signIn({ payload }) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     yield put(signInSuccess(token, user));
-    // history.push('/dashboard');
   } catch (err) {
     Alert.alert(
       'Falha na autenticação',
@@ -35,7 +34,6 @@ export function* signUp({ payload }) {
     yield call(api.post, 'users', payload);
 
     Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-    // history.push('/');
   } catch (err) {
     Alert.alert(
       'Falha no cadastron',
@@ -43,10 +41,6 @@ export function* signUp({ payload }) {
     );
     yield put(signFailure());
   }
-}
-
-export function signOut() {
-  // history.push('/');
 }
 
 export function setToken({ payload }) {
@@ -61,5 +55,4 @@ export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
-  takeLatest('@auth/SIGN_OUT', signOut),
 ]);
