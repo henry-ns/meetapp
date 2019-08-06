@@ -20,24 +20,29 @@ class CreateSubscriptionService {
       include: [
         {
           model: User,
+          as: 'owner',
           attributes: ['name', 'email'],
         },
       ],
     });
 
-    if (!meetup) throw new SubscriptionError(400, 'Meetup not found');
+    if (!meetup) {
+      throw new SubscriptionError(400, 'Meetup not found');
+    }
 
     /**
      * Checking if user is the owner
      */
-    if (meetup.user_id === user_id)
+    if (meetup.user_id === user_id) {
       throw new SubscriptionError(400, "You can't subscribe in your meetups");
+    }
 
     /**
      * Checking date
      */
-    if (isBefore(meetup.date, new Date()))
+    if (isBefore(meetup.date, new Date())) {
       throw new SubscriptionError(400, "You can't subscribe to past meetups");
+    }
 
     /**
      * Checking if the user is already subscribler in an meetup on that date
@@ -51,11 +56,12 @@ class CreateSubscriptionService {
       },
     });
 
-    if (checkDate)
+    if (checkDate) {
       throw new SubscriptionError(
         400,
         "You can't subscribe in two meetings at the same time"
       );
+    }
 
     const isSubscribler = await Subscription.findOne({
       where: {
@@ -64,8 +70,9 @@ class CreateSubscriptionService {
       },
     });
 
-    if (isSubscribler)
+    if (isSubscribler) {
       throw new SubscriptionError(400, 'You are already subscribe');
+    }
 
     const subscription = await Subscription.create({
       user_id,

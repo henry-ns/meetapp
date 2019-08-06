@@ -1,6 +1,7 @@
 import { isBefore, parseISO, startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 
+import File from '../models/File';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
 
@@ -19,10 +20,17 @@ class MeetupController {
       },
       limit: 10,
       offset: (page - 1) * 10,
+      attributes: ['id', 'title', 'description', 'location', 'date'],
       include: [
         {
           model: User,
-          attributes: ['name', 'email'],
+          as: 'owner',
+          attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: File,
+          as: 'file',
+          attributes: ['id', 'path', 'url'],
         },
       ],
     });
@@ -76,6 +84,9 @@ class MeetupController {
   async delete(req, res) {
     const meetup = await Meetup.findByPk(req.params.id);
 
+    /**
+     * Check user owns the meeting
+     */
     if (meetup.user_id !== req.userId)
       return res.status(401).json({ error: 'not authorized' });
 

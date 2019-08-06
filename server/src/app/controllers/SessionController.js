@@ -13,16 +13,12 @@ class SessionController {
      * Checking the data match
      */
     if (!user || !(await user.checkPassword(password)))
-      return res.status(400).json({ error: "Email/password don't match" });
+      return res.status(400).json({ error: 'E-mail/password do not match' });
 
     const { id, name } = user;
 
     return res.json({
-      user: {
-        id,
-        name,
-        email,
-      },
+      user: { id, name, email },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
