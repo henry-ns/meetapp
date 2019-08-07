@@ -18,11 +18,12 @@ export const Divider = styled.View`
   height: 1px;
   opacity: 0.4;
   background: ${placeholderTextColor};
-  margin: ${({ marginStyle }) => marginStyle || '20px 0 30px'};
+  margin: ${({ marginStyle }) => marginStyle || '15px 0 25px'};
 `;
 
 export const Form = styled.ScrollView.attrs({
-  contentContainerStyle: { padding: 16 },
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: { padding: 30 },
 })`
   align-self: stretch;
 `;

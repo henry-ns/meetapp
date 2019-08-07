@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor={backgroundColor} />
-      <Header />
+      {isSigned && <Header />}
       <Routes />
     </>
   );
