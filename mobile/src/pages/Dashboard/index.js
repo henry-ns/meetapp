@@ -46,10 +46,6 @@ export default function Dashboard({ navigation }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
-  useEffect(() => {
-    console.tron.log(`Meetups: ${JSON.stringify(meetups)}`);
-  }, [meetups]);
-
   function handlePrevDay() {
     setPage(1);
     setDate(subDays(date, 1));
