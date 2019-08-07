@@ -20,6 +20,7 @@ export function* signIn({ payload }) {
     yield put(signInSuccess(token, user));
     history.push('/dashboard');
   } catch (err) {
+    console.tron.log(err);
     toast.error('Erro na autenticação, verifique seus dados!', 2500);
     yield put(signFailure());
   }

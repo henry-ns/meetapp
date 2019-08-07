@@ -18,8 +18,8 @@ class MeetupController {
           [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
         },
       },
-      limit: 10,
-      offset: (page - 1) * 10,
+      limit: 2,
+      offset: (page - 1) * 2,
       attributes: ['id', 'title', 'description', 'location', 'date'],
       include: [
         {

@@ -49,7 +49,7 @@ export default function Details({ match }) {
             </div>
           </header>
 
-          <img src={meetup.File.url} alt={meetup.File.id} />
+          <img src={meetup.file.url} alt={meetup.file.id} />
 
           <p>{meetup.description}</p>
           <aside>
