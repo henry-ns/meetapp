@@ -1,4 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { Dimensions } from 'react-native';
+import {
+  FlingGestureHandler,
+  Directions,
+  State,
+} from 'react-native-gesture-handler';
 import PropTypes from 'prop-types';
 
 import { format, subDays, addDays } from 'date-fns';
@@ -22,7 +28,9 @@ import {
   AvailableText,
 } from './styles';
 
-function renderList(meetups, navigation) {
+let initialX = 0;
+
+function RenderList(meetups, navigation) {
   return meetups.length > 0 ? (
     <List
       data={meetups}
@@ -79,7 +87,31 @@ export default function Dashboard({ navigation }) {
           <DateButton icon="chevron-right" onPress={handleNextDay} />
         </Time>
 
-        {loading ? <Load /> : renderList(meetups, navigation)}
+        {loading ? (
+          <Load />
+        ) : (
+          <FlingGestureHandler
+            direction={Directions.LEFT + Directions.RIGHT}
+            onHandlerStateChange={({ nativeEvent }) => {
+              const { state, absoluteX } = nativeEvent;
+
+              switch (state) {
+                case State.BEGAN:
+                  initialX = absoluteX;
+                  break;
+                case State.END:
+                  if (absoluteX - initialX < 0) handleNextDay();
+                  else handlePrevDay();
+
+                  initialX = 0;
+                  break;
+                default:
+              }
+            }}
+          >
+            {RenderList(meetups, navigation)}
+          </FlingGestureHandler>
+        )}
       </Container>
     </Background>
   );
