@@ -1,10 +1,4 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Dimensions } from 'react-native';
-import {
-  FlingGestureHandler,
-  Directions,
-  State,
-} from 'react-native-gesture-handler';
 import PropTypes from 'prop-types';
 
 import { format, subDays, addDays } from 'date-fns';
@@ -13,69 +7,67 @@ import pt from 'date-fns/locale/pt';
 import api from '~/services/api';
 
 import Background from '~/components/Background';
+import MeetupsList from '~/components/MeetupsList';
 import NavigationOptions from '~/components/NavigationOptions';
-import Meetup from '~/components/Meetup';
 
-import {
-  Container,
-  List,
-  Time,
-  DateButton,
-  DateText,
-  Load,
-  AvailableContainer,
-  AvailableIcon,
-  AvailableText,
-} from './styles';
-
-let initialX = 0;
-
-function RenderList(meetups, navigation) {
-  return meetups.length > 0 ? (
-    <List
-      data={meetups}
-      keyExtractor={item => String(item.id)}
-      renderItem={({ item }) => <Meetup data={item} navigation={navigation} />}
-    />
-  ) : (
-    <AvailableContainer>
-      <AvailableIcon />
-      <AvailableText>Nenhum meetup disponivel</AvailableText>
-    </AvailableContainer>
-  );
-}
+import { Container, Time, DateButton, DateText, Load } from './styles';
 
 export default function Dashboard({ navigation }) {
   const [meetups, setMeetups] = useState([]);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(addDays(new Date(), 0));
+  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
   const dateFormatted = useMemo(
     () => format(date, "dd 'de' MMMM", { locale: pt }),
     [date]
   );
 
+  async function loadMeetups(value = 1) {
+    const res = await api.get('meetups', {
+      params: { date, page: value },
+    });
+
+    if (res.data.length > 0 || value === 1) {
+      setPage(value + 1);
+      setMeetups(value === 1 ? res.data : [...meetups, ...res.data]);
+    }
+  }
+
   useEffect(() => {
-    async function loadMeetups() {
+    async function load() {
       setLoading(true);
-
-      const res = await api.get('meetups', {
-        params: { date },
-      });
-
-      setMeetups(res.data);
+      await loadMeetups();
       setLoading(false);
     }
 
-    loadMeetups();
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
+  useEffect(() => {
+    console.tron.log(`Meetups: ${JSON.stringify(meetups)}`);
+  }, [meetups]);
+
   function handlePrevDay() {
+    setPage(1);
     setDate(subDays(date, 1));
   }
 
   function handleNextDay() {
+    setPage(1);
     setDate(addDays(date, 1));
+  }
+
+  async function handleRefresh() {
+    setRefreshing(true);
+    await loadMeetups();
+    setRefreshing(false);
+  }
+
+  function loadMore() {
+    loadMeetups(page);
   }
 
   return (
@@ -86,31 +78,21 @@ export default function Dashboard({ navigation }) {
           <DateText>{dateFormatted}</DateText>
           <DateButton icon="chevron-right" onPress={handleNextDay} />
         </Time>
-
         {loading ? (
           <Load />
         ) : (
-          <FlingGestureHandler
-            direction={Directions.LEFT + Directions.RIGHT}
-            onHandlerStateChange={({ nativeEvent }) => {
-              const { state, absoluteX } = nativeEvent;
-
-              switch (state) {
-                case State.BEGAN:
-                  initialX = absoluteX;
-                  break;
-                case State.END:
-                  if (absoluteX - initialX < 0) handleNextDay();
-                  else handlePrevDay();
-
-                  initialX = 0;
-                  break;
-                default:
-              }
+          <MeetupsList
+            navigation={navigation}
+            data={meetups}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            onEndReachedThreshold={0.2}
+            onEndReached={loadMore}
+            onGesture={(initialX, absoluteX) => {
+              if (absoluteX - initialX < 0) handleNextDay();
+              else handlePrevDay();
             }}
-          >
-            {RenderList(meetups, navigation)}
-          </FlingGestureHandler>
+          />
         )}
       </Container>
     </Background>

@@ -8,7 +8,7 @@ export const primaryDarkColor = '#22202C';
 
 export const tabBarColor = '#2B1A2F';
 
-export const statusBarColor = '#000000';
+export const statusBarColor = '#1A1720';
 
 export const secondaryColor = '#333333';
 
