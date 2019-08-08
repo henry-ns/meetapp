@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 import Button from '~/components/Button';
 import {
@@ -38,4 +38,10 @@ export const P = styled.Text`
 export const SubmitButton = styled(Button)`
   height: 40px;
   margin: 20px;
+
+  ${({ enabled }) =>
+    !enabled &&
+    css`
+      background: ${secondaryTextColor};
+    `}
 `;

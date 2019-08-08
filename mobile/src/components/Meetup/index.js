@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import { format, parseISO } from 'date-fns';
-import pt from 'date-fns/locale/pt';
 import PropTypes from 'prop-types';
+
+import { format, parseISO, isBefore } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import api from '~/services/api';
 
@@ -9,6 +10,8 @@ import { Container, Image, Title, P, SubmitButton } from './styles';
 
 export default function Meetup({ navigation, data }) {
   const { file = {}, title, date, location, owner, id } = data;
+
+  const past = useMemo(() => isBefore(parseISO(date), new Date()), [date]);
 
   const dateFormatted = useMemo(
     () => format(parseISO(date), "dd 'de' MMMM', às' HH'h'", { locale: pt }),
@@ -33,8 +36,8 @@ export default function Meetup({ navigation, data }) {
       <P>{location}</P>
       <P>Orgamizador: {owner.name}</P>
 
-      <SubmitButton onPress={handleSubscription}>
-        Realizar inscrição
+      <SubmitButton onPress={handleSubscription} enabled={!past}>
+        {past ? 'Indisponivel' : 'Realizar inscrição'}
       </SubmitButton>
     </Container>
   );

@@ -18,7 +18,13 @@ import {
 
 let initialX = 0;
 
-export default function MeetupsList({ data, navigation, onGesture, ...rest }) {
+export default function MeetupsList({
+  message,
+  data,
+  navigation,
+  onGesture,
+  ...rest
+}) {
   return (
     <FlingGestureHandler
       direction={Directions.LEFT + Directions.RIGHT}
@@ -47,9 +53,7 @@ export default function MeetupsList({ data, navigation, onGesture, ...rest }) {
         ) : (
           <>
             <AvailableIcon />
-            <AvailableText>
-              Nenhum meetup disponivel{'\n'}nesse dia
-            </AvailableText>
+            <AvailableText>{message}</AvailableText>
           </>
         )}
       </Container>
@@ -59,6 +63,7 @@ export default function MeetupsList({ data, navigation, onGesture, ...rest }) {
 
 MeetupsList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape()),
+  message: PropTypes.string,
   onGesture: PropTypes.func,
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
@@ -68,4 +73,5 @@ MeetupsList.propTypes = {
 MeetupsList.defaultProps = {
   onGesture: () => {},
   data: [],
+  message: 'Nenhum meetup disponivel \n nesse dia',
 };
