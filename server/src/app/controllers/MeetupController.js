@@ -3,13 +3,13 @@ import { Op } from 'sequelize';
 
 import File from '../models/File';
 import Meetup from '../models/Meetup';
+import Subscription from '../models/Subscription';
 import User from '../models/User';
 
 class MeetupController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { date, page = 1 } = req.query;
 
-    const { date } = req.query;
     const searchDate = date ? parseISO(date) : new Date();
 
     const meetups = await Meetup.findAll({
@@ -17,9 +17,10 @@ class MeetupController {
         date: {
           [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
         },
+        user_id: { [Op.not]: req.userId },
       },
-      limit: 2,
-      offset: (page - 1) * 2,
+      limit: 10,
+      offset: (page - 1) * 10,
       attributes: ['id', 'title', 'description', 'location', 'date'],
       include: [
         {
@@ -35,7 +36,19 @@ class MeetupController {
       ],
     });
 
-    return res.json(meetups);
+    /**
+     * return id of my subscriptions
+     */
+    const meetupsIndexs = meetups.map(meetup => meetup.id);
+    const mySubscriptions = (await Subscription.findAll({
+      where: {
+        user_id: req.userId,
+        meetup_id: { [Op.in]: meetupsIndexs },
+      },
+      attributes: ['meetup_id'],
+    })).map(sub => sub.meetup_id);
+
+    return res.json({ meetups, mySubscriptions });
   }
 
   async store(req, res) {
