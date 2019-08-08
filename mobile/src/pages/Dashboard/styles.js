@@ -37,3 +37,8 @@ export const Load = styled.ActivityIndicator.attrs({
   justify-content: center;
   margin-bottom: 50px;
 `;
+
+export const ListContainer = styled.View`
+  flex: 1;
+  align-self: stretch;
+`;

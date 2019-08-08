@@ -5,6 +5,7 @@ import {
   primaryTextColor,
   secondaryColor,
   secondaryTextColor,
+  primaryButton,
 } from '~/styles/colors';
 
 export const Container = styled.View`
@@ -39,8 +40,14 @@ export const SubmitButton = styled(Button)`
   height: 40px;
   margin: 20px;
 
-  ${({ enabled }) =>
-    !enabled &&
+  ${({ subscriber }) =>
+    subscriber &&
+    css`
+      background: ${primaryButton};
+    `}
+
+  ${({ past }) =>
+    past &&
     css`
       background: ${secondaryTextColor};
     `}

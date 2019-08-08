@@ -1,77 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  FlingGestureHandler,
-  Directions,
-  State,
-} from 'react-native-gesture-handler';
-
 import Meetup from '~/components/Meetup';
 
-import {
-  Container,
-  AvailableIcon,
-  AvailableText,
-  ContainerList,
-} from './styles';
-
-let initialX = 0;
+import { Container, UnavailableIcon, UnavailableText, List } from './styles';
 
 export default function MeetupsList({
-  message,
   data,
   navigation,
-  onGesture,
+  subscription,
+  unavailableMsg,
   ...rest
 }) {
   return (
-    <FlingGestureHandler
-      direction={Directions.LEFT + Directions.RIGHT}
-      onHandlerStateChange={({ nativeEvent }) => {
-        const { state, absoluteX } = nativeEvent;
-
-        if (state === State.BEGAN) {
-          initialX = absoluteX;
-        } else if (state === State.END) {
-          onGesture(initialX, absoluteX);
-
-          initialX = 0;
-        }
-      }}
-    >
-      <Container>
-        {data.length > 0 ? (
-          <ContainerList
-            {...rest}
-            data={data}
-            keyExtractor={item => String(item.id)}
-            renderItem={({ item }) => (
-              <Meetup data={item} navigation={navigation} />
-            )}
-          />
-        ) : (
-          <>
-            <AvailableIcon />
-            <AvailableText>{message}</AvailableText>
-          </>
-        )}
-      </Container>
-    </FlingGestureHandler>
+    <Container>
+      {data.length > 0 ? (
+        <List
+          {...rest}
+          data={data}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <Meetup
+              data={item}
+              navigation={navigation}
+              subscription={subscription}
+            />
+          )}
+        />
+      ) : (
+        <>
+          <UnavailableIcon />
+          <UnavailableText>{unavailableMsg}</UnavailableText>
+        </>
+      )}
+    </Container>
   );
 }
 
 MeetupsList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape()),
-  message: PropTypes.string,
-  onGesture: PropTypes.func,
+  unavailableMsg: PropTypes.string,
+  subscription: PropTypes.bool,
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
   }).isRequired,
 };
 
 MeetupsList.defaultProps = {
-  onGesture: () => {},
   data: [],
-  message: 'Nenhum meetup disponivel \n nesse dia',
+  unavailableMsg: 'Nenhum meetup disponivel \n nesse dia',
+  subscription: false,
 };

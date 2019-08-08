@@ -9,7 +9,7 @@ export const Container = styled.View`
   justify-content: center;
 `;
 
-export const ContainerList = styled.FlatList.attrs({
+export const List = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: { paddingLeft: 30, paddingRight: 30, paddingTop: 16 },
 })`
@@ -17,13 +17,13 @@ export const ContainerList = styled.FlatList.attrs({
   align-self: stretch;
 `;
 
-export const AvailableIcon = styled(Icon).attrs({
+export const UnavailableIcon = styled(Icon).attrs({
   name: 'event-busy',
   size: 80,
   color: placeholderTextColor,
 })``;
 
-export const AvailableText = styled.Text`
+export const UnavailableText = styled.Text`
   color: ${placeholderTextColor};
   text-align: center;
   font-weight: bold;

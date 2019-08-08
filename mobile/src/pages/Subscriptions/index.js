@@ -1,52 +1,37 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { subDays, addDays } from 'date-fns';
-import api from '~/services/api';
 
 import Background from '~/components/Background';
 import MeetupsList from '~/components/MeetupsList';
 import NavigationOptions from '~/components/NavigationOptions';
 
 import { Container, Load } from './styles';
+import { getSubscriptionsRequest } from '~/store/modules/subscriptions/actions';
 
 export default function Subscriptions({ navigation }) {
-  const [meetups, setMeetups] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
 
-  async function loadMeetups(value = 1) {
-    const res = await api.get('subscriptions', {
-      params: { page: value },
-    });
-
-    if (res.data.length > 0 || value === 1) {
-      setPage(value + 1);
-      const list = res.data.map(item => ({ ...item.Meetup }));
-      setMeetups(value === 1 ? list : [...meetups, ...list]);
-    }
-  }
+  const dispatch = useDispatch();
+  const meetups = useSelector(state => state.subscriptions.subscriptions);
+  const page = useSelector(state => state.subscriptions.page);
 
   useEffect(() => {
-    async function load() {
-      setLoading(true);
-      await loadMeetups();
-      setLoading(false);
-    }
-
-    load();
+    setLoading(true);
+    dispatch(getSubscriptionsRequest(1));
+    setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function handleRefresh() {
+  function handleRefresh() {
     setRefreshing(true);
-    await loadMeetups();
+    dispatch(getSubscriptionsRequest(1));
     setRefreshing(false);
   }
 
   function loadMore() {
-    loadMeetups(page);
+    dispatch(getSubscriptionsRequest(page + 1));
   }
 
   return (
@@ -56,13 +41,14 @@ export default function Subscriptions({ navigation }) {
           <Load />
         ) : (
           <MeetupsList
-            navigation={navigation}
-            message={'Você não tem meetup \n inscritos'}
+            subscription
             data={meetups}
+            navigation={navigation}
             refreshing={refreshing}
             onRefresh={handleRefresh}
-            onEndReachedThreshold={0.2}
             onEndReached={loadMore}
+            onEndReachedThreshold={0.2}
+            unavailableMsg={'Você não tem meetup \n inscritos'}
           />
         )}
       </Container>
