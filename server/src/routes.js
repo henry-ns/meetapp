@@ -19,7 +19,6 @@ import {
 } from './app/validators/Meetup';
 
 import { validateSessionStore } from './app/validators/Session';
-import { validateSubscriptionStore } from './app/validators/Subscription';
 import { validateUserStore, validateUserUpdate } from './app/validators/User';
 
 import authMiddware from './app/middwares/auth';
@@ -59,6 +58,9 @@ routes
 routes.get('/organizing', OrganizingController.index);
 routes.get('/subscriptions', SubscriptionController.index);
 
-routes.post('/meetups/:meetupId/subscribe', SubscriptionController.store);
+routes
+  .route('/meetups/:meetupId/subscribe')
+  .post(SubscriptionController.store)
+  .delete(SubscriptionController.delete);
 
 export default routes;

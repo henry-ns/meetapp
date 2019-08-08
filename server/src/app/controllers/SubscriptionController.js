@@ -13,8 +13,8 @@ class SubscriptionController {
 
     const subcriptions = await Subscription.findAll({
       where: { user_id: req.userId },
-      limit: 10,
-      offset: (page - 1) * 10,
+      limit: 2,
+      offset: (page - 1) * 2,
       attributes: ['id'],
       include: [
         {
@@ -50,6 +50,19 @@ class SubscriptionController {
     });
 
     return res.json(subscription);
+  }
+
+  async delete(req, res) {
+    const subscription = await Subscription.findOne({
+      where: {
+        user_id: req.userId,
+        meetup_id: req.params.meetupId,
+      },
+    });
+
+    if (subscription) subscription.destroy();
+
+    return res.json();
   }
 }
 
