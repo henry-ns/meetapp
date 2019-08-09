@@ -18,8 +18,12 @@ export default function subscriptions(state = INITIAL_STATE, action) {
       }
       case '@subscriptions/UNSUBSCRIBER_SUCCESS': {
         draft.subscriptions = draft.subscriptions.filter(
-          meetup => meetup !== action.payload.id
+          meetup => meetup.id !== action.payload.id
         );
+        break;
+      }
+      case '@meetups/SUBSCRIBER_SUCCESS': {
+        draft.subscriptions.push(action.payload);
         break;
       }
       default:

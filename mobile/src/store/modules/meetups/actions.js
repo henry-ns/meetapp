@@ -25,9 +25,9 @@ export function subscriberRequest(id) {
   };
 }
 
-export function subscriberSuccess(id) {
+export function subscriberSuccess(meetup) {
   return {
     type: '@meetups/SUBSCRIBER_SUCCESS',
-    payload: { id },
+    payload: meetup,
   };
 }

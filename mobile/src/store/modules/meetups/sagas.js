@@ -38,9 +38,9 @@ export function* getMeetups({ payload }) {
 
 export function* subscriber({ payload }) {
   try {
-    yield call(api.post, `meetups/${payload.id}/subscribe`);
+    const res = yield call(api.post, `meetups/${payload.id}/subscribe`);
 
-    yield put(subscriberSuccess(payload.id));
+    yield put(subscriberSuccess(res.data));
   } catch (err) {
     const { error } = err.response.data;
     const msg = error

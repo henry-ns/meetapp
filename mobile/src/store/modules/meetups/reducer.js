@@ -27,6 +27,17 @@ export default function meetups(state = INITIAL_STATE, action) {
         );
         break;
       }
+      case '@subscriptions/UNSUBSCRIBER_SUCCESS': {
+        draft.meetups = draft.meetups.map(meetup =>
+          action.payload.id === meetup.id
+            ? {
+                ...meetup,
+                subscriber: false,
+              }
+            : meetup
+        );
+        break;
+      }
       default:
     }
   });
