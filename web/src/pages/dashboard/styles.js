@@ -18,6 +18,8 @@ export const Container = styled.div`
 
     h1 {
       font-size: 2.28em;
+      user-select: none;
+      cursor: default;
     }
   }
 

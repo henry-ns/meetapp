@@ -20,7 +20,9 @@ const schema = Yup.object().shape({
     .max(255, 'No maxímo 255 caracteres')
     .required('A descrição é obrigatória'),
   date: Yup.date().required('A data é obrigatória'),
-  location: Yup.string().required('O endereço é obrigatório'),
+  location: Yup.string()
+    .max(255, 'No maxímo 255 caracteres')
+    .required('O endereço é obrigatório'),
   file_id: Yup.number(),
 });
 

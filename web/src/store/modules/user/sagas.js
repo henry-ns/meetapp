@@ -19,7 +19,10 @@ export function* updateProfile({ payload }) {
 
     yield put(updateProfileSuccess(res.data));
   } catch (err) {
-    toast.error('Erro na atualização, verifique seus dados!', 2500);
+    const { error } = err.response.data;
+    const msg = error || 'Erro na atualização, verifique seus dados!';
+
+    toast.error(msg, 2500);
     yield put(updateProfileFailure());
   }
 }

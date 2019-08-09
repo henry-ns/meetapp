@@ -9,7 +9,7 @@ import {
 } from '~/styles/colors';
 
 export const Container = styled.header`
-  height: 92px;
+  height: 80px;
   width: 100%;
   margin-bottom: 20px;
 
@@ -26,6 +26,15 @@ export const Containt = styled.div`
   margin: 0 auto;
   padding: 0 20px;
 
+  > a {
+    > img {
+      &:active {
+        transform: scale(0.9);
+        transition: transform 0.15s;
+      }
+    }
+  }
+
   aside {
     display: flex;
     align-items: center;
@@ -41,6 +50,8 @@ export const Containt = styled.div`
     strong {
       display: block;
       margin-bottom: 5px;
+      user-select: none;
+      cursor: default;
     }
 
     a {

@@ -6,7 +6,7 @@ export const primaryLightColor = '#402845';
 
 export const primaryDarkColor = '#22202C';
 
-export const secondaryColor = '#000';
+export const secondaryColor = 'rgba(0, 0, 0, 0.3)';
 
 export const primaryTextColor = '#fff';
 

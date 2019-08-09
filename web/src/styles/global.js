@@ -46,6 +46,7 @@ export default createGlobalStyle`
     color: ${primaryTextColor};
     font-weight: bold;
     font-size: 1.14em;
+    user-select: none;
   }
 
   input, button, textarea {
