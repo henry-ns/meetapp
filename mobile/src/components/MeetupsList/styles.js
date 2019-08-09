@@ -21,7 +21,9 @@ export const UnavailableIcon = styled(Icon).attrs({
   name: 'event-busy',
   size: 80,
   color: placeholderTextColor,
-})``;
+})`
+  margin-top: 80px;
+`;
 
 export const UnavailableText = styled.Text`
   color: ${placeholderTextColor};

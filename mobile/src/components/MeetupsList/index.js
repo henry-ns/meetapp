@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Meetup from '~/components/Meetup';
@@ -28,10 +29,17 @@ export default function MeetupsList({
           )}
         />
       ) : (
-        <>
-          <UnavailableIcon />
-          <UnavailableText>{unavailableMsg}</UnavailableText>
-        </>
+        <List
+          {...rest}
+          data={['unavailable']}
+          keyExtractor={item => item}
+          renderItem={() => (
+            <Container>
+              <UnavailableIcon />
+              <UnavailableText>{unavailableMsg}</UnavailableText>
+            </Container>
+          )}
+        />
       )}
     </Container>
   );
