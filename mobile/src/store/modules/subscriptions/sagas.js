@@ -19,9 +19,7 @@ export function* getSubscriptions({ payload }) {
     }
   } catch (err) {
     const { error } = err.response.data;
-    const msg = error
-      ? error.message
-      : 'Houve um erro, tente novamente mais tarde';
+    const msg = error || 'Houve um erro, tente novamente mais tarde';
 
     Alert.alert('Falha ao carregar as inscrições', msg);
   }
@@ -34,9 +32,7 @@ export function* unsubscriber({ payload }) {
     yield put(unsubscriberSuccess(payload.id));
   } catch (err) {
     const { error } = err.response.data;
-    const msg = error
-      ? error.message
-      : 'Houve um erro, tente novamente mais tarde';
+    const msg = error || 'Houve um erro, tente novamente mais tarde';
 
     Alert.alert('Falha ao cancelar a inscrição', msg);
   }

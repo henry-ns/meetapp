@@ -28,9 +28,7 @@ export function* getMeetups({ payload }) {
     }
   } catch (err) {
     const { error } = err.response.data;
-    const msg = error
-      ? error.message
-      : 'Houve um erro, tente novamente mais tarde';
+    const msg = error || 'Houve um erro, tente novamente mais tarde';
 
     Alert.alert('Falha em carregar os meetups', msg);
   }
@@ -43,9 +41,7 @@ export function* subscriber({ payload }) {
     yield put(subscriberSuccess(res.data));
   } catch (err) {
     const { error } = err.response.data;
-    const msg = error
-      ? error.message
-      : 'Houve um erro, tente novamente mais tarde';
+    const msg = error || 'Houve um erro, tente novamente mais tarde';
 
     Alert.alert('Falha ao se inscrever', msg);
   }

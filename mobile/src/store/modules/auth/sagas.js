@@ -19,9 +19,7 @@ export function* signIn({ payload }) {
     yield put(signInSuccess(token, user));
   } catch (err) {
     const { error } = err.response.data;
-    const msg = error
-      ? error.message
-      : 'Houve um erro no login, verifique seus dados!';
+    const msg = error || 'Houve um erro no login, verifique seus dados!';
 
     Alert.alert('Falha no autenticação', msg);
     yield put(signFailure());
@@ -38,9 +36,7 @@ export function* signUp({ payload }) {
     Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
   } catch (err) {
     const { error } = err.response.data;
-    const msg = error
-      ? error.message
-      : 'Houve um erro no cadastron, verifique seus dados!';
+    const msg = error || 'Houve um erro no cadastron, verifique seus dados!';
 
     Alert.alert('Falha no cadastro', msg);
     yield put(signFailure());

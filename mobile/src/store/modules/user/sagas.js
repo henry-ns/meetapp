@@ -20,9 +20,8 @@ export function* updateProfile({ payload }) {
     yield put(updateProfileSuccess(res.data));
   } catch (err) {
     const { error } = err.response.data;
-    const msg = error
-      ? error.message
-      : 'Houve uma falha na atualização, verifique seus dados!';
+    const msg =
+      error || 'Houve uma falha na atualização, verifique seus dados!';
 
     Alert.alert('Falha na atualização', msg);
 
