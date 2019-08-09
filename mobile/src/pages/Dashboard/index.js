@@ -14,17 +14,11 @@ import pt from 'date-fns/locale/pt';
 import Background from '~/components/Background';
 import MeetupsList from '~/components/MeetupsList';
 import NavigationOptions from '~/components/NavigationOptions';
+import DateInput from '~/components/DateInput';
 
 import { getMeetupsRequest } from '~/store/modules/meetups/actions';
 
-import {
-  Container,
-  Time,
-  DateButton,
-  DateText,
-  Load,
-  ListContainer,
-} from './styles';
+import { Container, Time, DateButton, Load, ListContainer } from './styles';
 
 let initialX = 0;
 
@@ -36,11 +30,6 @@ export default function Dashboard({ navigation }) {
   const dispatch = useDispatch();
   const meetups = useSelector(state => state.meetups.meetups);
   const page = useSelector(state => state.meetups.page);
-
-  const dateFormatted = useMemo(
-    () => format(date, "dd 'de' MMMM", { locale: pt }),
-    [date]
-  );
 
   useEffect(() => {
     async function load() {
@@ -76,7 +65,7 @@ export default function Dashboard({ navigation }) {
       <Container>
         <Time>
           <DateButton icon="chevron-left" onPress={handlePrevDay} />
-          <DateText>{dateFormatted}</DateText>
+          <DateInput date={date} onChange={setDate} />
           <DateButton icon="chevron-right" onPress={handleNextDay} />
         </Time>
         {loading ? (

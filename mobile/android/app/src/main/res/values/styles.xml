@@ -11,4 +11,13 @@
         <item name="android:statusBarColor">@color/primary</item>
     </style>
 
+    <style name="SpinnerDatePickerDialog" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:colorAccent">@color/secundary</item>
+        <item name="android:colorControlNormal">@color/secundary</item>
+    </style>
+
+    <style name="MyDatePicker" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
 </resources>
