@@ -3,6 +3,7 @@ import { isBefore } from 'date-fns';
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 
 import SubscriptionMail from '../jobs/SubscriptionMail';
 import Queue from '../../lib/Queue';
@@ -19,9 +20,14 @@ class CreateSubscriptionService {
     const meetup = await Meetup.findByPk(meetup_id, {
       include: [
         {
+          model: File,
+          as: 'file',
+          attributes: ['id', 'path', 'url'],
+        },
+        {
           model: User,
           as: 'owner',
-          attributes: ['name', 'email'],
+          attributes: ['id', 'name', 'email'],
         },
       ],
     });
@@ -74,7 +80,7 @@ class CreateSubscriptionService {
       throw new SubscriptionError(400, 'You are already subscribe');
     }
 
-    const subscription = await Subscription.create({
+    await Subscription.create({
       user_id,
       meetup_id: meetup.id,
     });
@@ -84,7 +90,7 @@ class CreateSubscriptionService {
      */
     await Queue.add(SubscriptionMail.key, { meetup });
 
-    return subscription;
+    return meetup;
   }
 }
 
