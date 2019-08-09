@@ -31,12 +31,11 @@ const bruteForce = new Brute(bruteStore);
 
 routes.get('/', (_, res) => res.send('Welcome to MeetApp'));
 
-routes.post(
-  '/session',
-  bruteForce.prevent,
-  validateSessionStore,
-  SessionController.store
-);
+if (process.env.NODE_ENV !== 'development') {
+  routes.post('/session', bruteForce.prevent);
+}
+
+routes.post('/session', validateSessionStore, SessionController.store);
 
 routes.post('/users', validateUserStore, UserController.store);
 
